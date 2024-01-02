@@ -20,6 +20,7 @@ In our project we firstly wanted to visualize the data and each of its features.
  Below are the KDE plots for accountType/ location with itemBuyFrequency:
 <img width="453" alt="Screenshot 2024-01-02 at 01 23 54" src="https://github.com/kevinwang2307/ShopEasy-289121/assets/145768116/ffc734d7-deed-43f8-9dde-a5780ff5242f">
 <img width="447" alt="Screenshot 2024-01-02 at 01 24 09" src="https://github.com/kevinwang2307/ShopEasy-289121/assets/145768116/2a0d0b41-9807-40a2-bd27-50b36dbc1da6">
+ 
  Before we used a heatmap to visualize all the correlations we label encoded from sklearn to encode accountType categorical values. We use label encoding for accountType as they can be considered ordinal(where the order of categories is meaningful'premium' being first and 'student' being last). The reasoning as premium account type pay the most, while student account type get discounts so they pay the least. And regular account types pay a normal amount. For location categorical values, since it is a nominal data, we chose not to use label encoding as it might assume a natural order in the location, instead using dummy variables would be more appropriate in this case where each category is represented by a binary vector. We then observed the correlation heatmap to observe the features in a more holistic way. Below are the notes we took observing the heatmap:
   
   Firstly, we can confirm that there is no correlation between the locations and other attributes. As mentioned before since we are analyzing customers on an e-commerce website, the location often does not matter unless it in a whole different country, which in this case it is not. Therefore we decided not to select this feature as it is not relevant to our analysis. It is different for account type as this categorical feature is actually relevant to our analysis even though it has no coorrelation seen in the heatmap with any other feature. From the heatmap one can also observe a few features that can be considered irrelevant for the analysis or redundant. We choose to drop accountTotal as although it can be an essential feature to evaluate a user's engagement with the e-commerce website, the values it portrayed were inconsistent compared to other attributes such as itemCosts, and monthlypaid meaning either the total amount does not depict a value in money or uses a different currency or in general is inaccurate. Using this logic we also choose to drop leastAmountPaid, having little to no correlation with the other features, as mentioned before, the values portrayed are inconsistent compared to other attributes such as monthlyPaid. After further observation we notice that the attribute ,monthlyPaid also has inconsistencies with attributes such as itemCosts and also add no additional insight that itemCosts wouldn't add therefore we choose to drop monthlyPaid. This also leads to dropping features such as webUsage and frequencyIndex, not only having little to no correlation with the rest of the features but both also have a very similar definition to itemBuyFrequency which actually does have correlation to other features that are relevant to our analysis. We also drop the feature paymentCompletionRate for the lack of correlation with other features as well as the lack of insight it can provide. We also consider dropping maxSpendLimit for the same reason as accountTotal and leastAmountPaid, which is for the reason that it proves to have inconsistencies between other features such as monthly paid, where although the limit is set to a certain value for a user, that same user would have higher singleItemCosts value than the maxSpendLimit value. "The maximum amount the user can spend in a single purchase, set by ShopEasy based on user's buying behavior and loyalty" is the definition of maxSpendLimit and the definition for singleItemCosts is "Costs of items that the user bought in a single purchase without opting for installments" so therefore it is again an inconsistent value and we decide to drop maxSpendLimit. Additonally features such as singleItemBuyFrequency and multipleItemBuyFrequency or singleItemCosts and multipleItemCosts are a more specific version of itemBuyFrequency and itemCosts respectively. These two pair of features can be generalized by itemBuyFrequency and itemCosts and would provide a more significant insight to our analysis compared to the general insigh provided by itemBuyFrequency and itemCosts. Therefore itemBuyFrequency and itemCosts are dropped. We also drop emergencyUseFrequency due to its high correlation and similar definition to emergencyCount, meaning it could be considered redundant to have it.
@@ -105,6 +106,60 @@ In conclusion, we have found five customer segments in this shopEasy dataset. Th
 
 In this case we were met with challenges such as choosing the right features for the clustering models. Of course we don't fully know if we are correct or not, but we believe that our reasoning is correct and in a context such as unsupervised reasoning that is what matters the most. Of course we also tried to include other features and test them out but as we mentioned, the evaluation metric, which in this case is the silhuoette score, was not as important as understanding the features and gaining insights from them. Moving on if we were continue from this point, we would try to create a more personalize experience for these cluster of users, creating targetted promotions, special events and increasing over all engagement as we noticed a large number of inactive users. In conclusion, although we did not recieve the best silhuoette scores, we gained a much more significant amount of insight from the clusters we created, and properly segmented the customer base accordingly. 
 
+## Additional:
+Some of the visual graphs are not showing for some reason when I upload them to github, they are mainly the plots that I used to visualize my clusters. Although I am able to see them if I upload the file to google collab they are not showing on the github so I am gooing to display the code and the graph you get respectively here: 
+For K-means++:  
+
+kmeansmodel = KMeans(n_clusters = 5, init = 'k-means++', n_init = 10, random_state = 42)  
+labels=kmeansmodel.fit_predict(scaled_df)  
+clusters = scaled_df.copy()  
+clusters['label'] = labels  
+cluster_means = clusters.groupby("label").mean()  
+polar = cluster_means.reset_index()  
+polar = pd.melt(polar, id_vars=["label"])  
+fig = px.line_polar(polar, r="value", theta="variable", color="label", line_close=True, height=800, width=1400)  
+fig.show()  
+
+#plot code inspired by https://towardsdatascience.com/clustering-with-more-than-two-features-try-this-to-explain-your-findings-b053007d680a  
+This is the output:
+<img width="1098" alt="Screenshot 2024-01-02 at 03 44 42" src="https://github.com/kevinwang2307/ShopEasy-289121/assets/145768116/7f24195f-f012-4ee1-b67f-2ea5025cf4f2">
+
+For Hierchical clustering:  
+agglomerative_clustering = AgglomerativeClustering(n_clusters=5, metric='euclidean', linkage='ward')  
+label_1 = agglomerative_clustering.fit_predict(scaled_df)  
+clusters_1 = scaled_df.copy()  
+clusters_1['label'] = label_1  
+cluster_means1 = clusters_1.groupby('label').mean()  
+polar = cluster_means1.reset_index()  
+polar = pd.melt(polar, id_vars=["label"])  
+fig = px.line_polar(polar, r="value", theta="variable", color="label", line_close=True, height=800, width=1400)  
+fig.show()  
+#plot code inspired by https://towardsdatascience.com/clustering-with-more-than-two-features-try-this-to-explain-your-findings-b053007d680a  
+This is the output:  
+
+<img width="944" alt="Screenshot 2024-01-02 at 04 46 09" src="https://github.com/kevinwang2307/ShopEasy-289121/assets/145768116/39d3a055-2653-42ae-8c09-0ffb3c3a7215">
+
+and for DBSCAN: 
+
+dbscan_clustering = DBSCAN(eps = 1.2, min_samples =18)  
+label_2 = dbscan_clustering.fit_predict(scaled_df)  
+clusters_2 = scaled_df.copy()  
+clusters_2['label'] = label_2  
+cluster_means2 = clusters_2.groupby('label').mean()  
+polar = cluster_means2.reset_index()  
+polar = pd.melt(polar, id_vars=["label"])  
+fig = px.line_polar(polar, r="value", theta="variable", color="label", line_close=True, height=800, width=1400)  
+fig.show()  
+This is the output:  
+
+<img width="956" alt="Screenshot 2024-01-02 at 04 47 48" src="https://github.com/kevinwang2307/ShopEasy-289121/assets/145768116/c5abf456-39ed-4cfe-ade7-9501daa3264b">
+
+## Bibliography:
+“2.3. Clustering.” n.d. Scikit-Learn. https://scikit-learn.org/stable/modules/clustering.html.   
+Kiptoon, Diborah. 2023. “Feature Selection in Machine Learning - Diborah Kiptoon - Medium.” Medium, August 18, 2023. https://medium.com/@jdkiptoon/feature-selection-in-machine-learning-20417d052b80.  
+Letelier, Mauricio. 2021. “Clustering With More Than Two Features? Try This To Explain Your Findings.” Medium, December 15, 2021. https://towardsdatascience.com/clustering-with-more-than-two-features-try-this-to-explain-your-findings-b053007d680a.   
+Mullin, Tara. 2021. “DBSCAN Parameter Estimation Using Python - Tara Mullin - Medium.” Medium, December 15, 2021. https://medium.com/@tarammullin/dbscan-parameter-estimation-ff8330e3a3bd.  
+S, Calvin Aziszam. 2022. “Python for Data Science: Implementing Exploratory Data Analysis (EDA) and K-Means Clustering.” Medium, July 17, 2022. https://medium.com/@aziszamcalvin/python-for-data-science-implementing-exploratory-data-analysis-eda-and-k-means-clustering-bcf1d24adc12.
 
 
 
