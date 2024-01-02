@@ -19,6 +19,7 @@ In our project we firstly wanted to visualize the data and each of its features.
  
  We then further observed the distribution of categorical features accountType and location and discovered that both categorical features have equal distribution across all users. We also used KDE plots to understand whether there is a difference in distribution between the categorical feature distributions to another feature such as itemBuyFrequency and discovered that location feature might not be relevant to understanding buying habits and behaviour of customers, as they have no effect on the distribution of other features and in a e-commerce context where almost everything is done online, on a website, location does not really matter. Although accountType did not have an affect on feature distribution as well, we wanted to keep accountType as it is a feature that would provide more future insight on the user base of each cluster.
  Below are the KDE plots for accountType/ location with itemBuyFrequency:
+ 
 <img width="453" alt="Screenshot 2024-01-02 at 01 23 54" src="https://github.com/kevinwang2307/ShopEasy-289121/assets/145768116/ffc734d7-deed-43f8-9dde-a5780ff5242f">
 <img width="447" alt="Screenshot 2024-01-02 at 01 24 09" src="https://github.com/kevinwang2307/ShopEasy-289121/assets/145768116/2a0d0b41-9807-40a2-bd27-50b36dbc1da6">
  
