@@ -128,6 +128,14 @@ fig.show()
 This is the output:
 <img width="1098" alt="Screenshot 2024-01-02 at 03 44 42" src="https://github.com/kevinwang2307/ShopEasy-289121/assets/145768116/7f24195f-f012-4ee1-b67f-2ea5025cf4f2">
 
+pie=clusters.groupby('label').size().reset_index()  
+pie.columns=['label','value']  
+px.pie(pie,values='value',names='label',color=['red','blue','green','purple','orange'])  
+#plot code inspired by https://towardsdatascience.com/clustering-with-more-than-two-features-try-this-to-explain-your-findings-b053007d680a  
+This is the output:
+
+<img width="1060" alt="Screenshot 2024-01-02 at 03 55 16" src="https://github.com/kevinwang2307/ShopEasy-289121/assets/145768116/a9ec0b90-f696-42aa-9731-594448675d82">
+
 For Hierchical clustering:  
 agglomerative_clustering = AgglomerativeClustering(n_clusters=5, metric='euclidean', linkage='ward')  
 label_1 = agglomerative_clustering.fit_predict(scaled_df)  
@@ -143,6 +151,14 @@ This is the output:
 
 <img width="944" alt="Screenshot 2024-01-02 at 04 46 09" src="https://github.com/kevinwang2307/ShopEasy-289121/assets/145768116/39d3a055-2653-42ae-8c09-0ffb3c3a7215">
 
+pie=clusters_1.groupby('label').size().reset_index()  
+pie.columns=['label','value']  
+px.pie(pie,values='value',names='label',color=['red','blue','green','purple', 'orange'])  
+#plot code inspired by https://towardsdatascience.com/clustering-with-more-than-two-features-try-this-to-explain-your-findings-b053007d680a  
+This is the output:
+
+<img width="954" alt="Screenshot 2024-01-02 at 06 14 25" src="https://github.com/kevinwang2307/ShopEasy-289121/assets/145768116/6d488482-be4f-418a-be00-d019dbaccdc0">
+
 and for DBSCAN: 
 
 dbscan_clustering = DBSCAN(eps = 1.2, min_samples =18)  
@@ -157,6 +173,14 @@ fig.show()
 This is the output:  
 
 <img width="956" alt="Screenshot 2024-01-02 at 04 47 48" src="https://github.com/kevinwang2307/ShopEasy-289121/assets/145768116/c5abf456-39ed-4cfe-ade7-9501daa3264b">
+
+pie=clusters_2.groupby('label').size().reset_index()  
+pie.columns=['label','value']  
+px.pie(pie,values='value',names='label',color=['red','blue','green','purple'])  
+#plot code inspired by https://towardsdatascience.com/clustering-with-more-than-two-features-try-this-to-explain-your-findings-b053007d680a  
+This is the output:
+
+<img width="979" alt="Screenshot 2024-01-02 at 06 16 17" src="https://github.com/kevinwang2307/ShopEasy-289121/assets/145768116/8d18e103-9563-4367-84f1-5d564f679c1a">
 
 ## Bibliography:
 “2.3. Clustering.” n.d. Scikit-Learn. https://scikit-learn.org/stable/modules/clustering.html.   
