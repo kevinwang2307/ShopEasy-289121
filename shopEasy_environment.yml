@@ -1,4 +1,4 @@
-name: aiml_env
+name: shopEasy_env
 channels:
   - defaults
 dependencies:
