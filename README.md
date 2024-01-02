@@ -107,7 +107,7 @@ In conclusion, we have found five customer segments in this shopEasy dataset. Th
 In this case we were met with challenges such as choosing the right features for the clustering models. Of course we don't fully know if we are correct or not, but we believe that our reasoning is correct and in a context such as unsupervised reasoning that is what matters the most. Of course we also tried to include other features and test them out but as we mentioned, the evaluation metric, which in this case is the silhuoette score, was not as important as understanding the features and gaining insights from them. Moving on if we were continue from this point, we would try to create a more personalize experience for these cluster of users, creating targetted promotions, special events and increasing over all engagement as we noticed a large number of inactive users. In conclusion, although we did not recieve the best silhuoette scores, we gained a much more significant amount of insight from the clusters we created, and properly segmented the customer base accordingly. 
 
 ## Additional:
-Some of the visual graphs are not showing for some reason when I upload them to github, they are mainly the plots that I used to visualize my clusters. Although I am able to see them if I upload the file to google collab they are not showing on the github so I am gooing to display the code and the graph you get respectively here: 
+Since GitHub's rendering of Jupyter notebook does not support the JavaScript-based interactive feature that Plotly graph uses I have uploaded the codes below with their respective graph output.
 For K-means++:  
 
 kmeansmodel = KMeans(n_clusters = 5, init = 'k-means++', n_init = 10, random_state = 42)  
